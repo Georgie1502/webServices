@@ -47,9 +47,15 @@ app.get("/api", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`📚 Serveur lancé sur http://localhost:${PORT}`);
-});
-
 // Documentation Swagger UI
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi));
+
+// Démarrer le serveur uniquement si exécuté directement (pas en test)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`📚 Serveur lancé sur http://localhost:${PORT}`);
+  });
+}
+
+// Export pour les tests
+module.exports = app;
